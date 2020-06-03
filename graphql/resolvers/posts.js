@@ -1,4 +1,4 @@
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Post = require("../../models/Post");
 const checkAuth = require("../../utils/check-auth");
@@ -6,7 +6,7 @@ const checkAuth = require("../../utils/check-auth");
 module.exports = {
   Query: {
     // @GETPOSTS get all posts
-    async getPosts() {
+    getPosts: async () => {
       try {
         // finds all posts in the database
         const posts = await Post.find().sort({ createdAt: -1 });
@@ -16,7 +16,7 @@ module.exports = {
       }
     },
     // @GETPOST get one specific post
-    async getPost(parent, { postId }) {
+    getPost: async (parent, { postId }) => {
       try {
         const post = await Post.findById(postId);
         if (post) {
@@ -31,7 +31,7 @@ module.exports = {
   },
   Mutation: {
     // @CREATEPOST Creates a post
-    async createPost(parent, { body }, context) {
+    createPost: async (parent, { body }, context) => {
       //checks if the user is authorized to post
       const user = checkAuth(context);
 
@@ -48,7 +48,7 @@ module.exports = {
     },
 
     // @DELETEPOST Deletes a post
-    async deletePost(parent, { postId }, context) {
+    deletePost: async (parent, { postId }, context) => {
       //checks if the user is authorized to post
       const user = checkAuth(context);
       try {
@@ -61,6 +61,32 @@ module.exports = {
         }
       } catch (error) {
         throw new Error(error);
+      }
+    },
+
+    //@LIKEPOST Likes a post
+    likePost: async (parent, { postId }, context) => {
+      const { username } = checkAuth(context);
+
+      const post = await Post.findById(postId);
+
+      if (post) {
+        //if post is liked already => unlike it
+        if (post.likes.find((like) => like.username === username)) {
+          //sets the likes array to a filtered array containing all the likes except the one matching the username
+          post.likes = post.likes.filter((like) => like.username !== username);
+        } else {
+          //if post is not like yet => like it
+          post.likes.push({
+            username,
+            createdAt: new Date().toISOString(),
+          });
+        }
+
+        await post.save();
+        return post;
+      } else {
+        throw new UserInputError("Post not found");
       }
     },
   },

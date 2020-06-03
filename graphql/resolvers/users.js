@@ -21,7 +21,7 @@ const generateToken = (user) => {
 module.exports = {
   Mutation: {
     //@REGISTER
-    async register(parent, { registerInput: { username, email, password, confirmPassword } }) {
+    register: async (parent, { registerInput: { username, email, password, confirmPassword } }) => {
       // Validation
       const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
       if (!valid) {
@@ -63,7 +63,7 @@ module.exports = {
     },
 
     //@LOGIN
-    async login(parent, { username, password }) {
+    login: async (parent, { username, password }) => {
       //Validation
       const { valid, errors } = validateLoginInput(username, password);
 
