@@ -35,6 +35,9 @@ module.exports = {
       //checks if the user is authorized to post
       const user = checkAuth(context);
 
+      if (args.body.trim() === "") {
+        throw new Error("Post must not be empty");
+      }
       const newPost = new Post({
         body,
         user: user.id,
