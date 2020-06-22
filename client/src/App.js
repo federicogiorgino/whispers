@@ -14,8 +14,8 @@ import Navbar from "./components/Navbar";
 const App = () => {
   return (
     <Router>
+      <Navbar />
       <Container>
-        <Navbar />
         <Route exact path='/' component={Home} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
