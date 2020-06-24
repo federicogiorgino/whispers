@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
+import { AuthContext } from "../context/auth";
+
 const Login = (props) => {
+  const context = useContext(AuthContext);
   //hooks
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
@@ -20,7 +23,8 @@ const Login = (props) => {
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(proxy, result) {
-      console.log(result);
+      console.log(result.data.login);
+      context.login(result.data.login);
       //once registered redirects to homepage
       props.history.push("/");
     },

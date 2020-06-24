@@ -7,7 +7,6 @@ import Post from "../components/Post";
 
 const Home = () => {
   const { loading, data } = useQuery(FETCH_POSTS_QUERY);
-  console.log(data);
 
   return (
     <Grid columns={1}>
