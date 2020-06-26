@@ -35,7 +35,7 @@ module.exports = {
       //checks if the user is authorized to post
       const user = checkAuth(context);
 
-      if (args.body.trim() === "") {
+      if (body.trim() === "") {
         throw new Error("Post must not be empty");
       }
 
@@ -98,7 +98,7 @@ module.exports = {
   },
   Subscription: {
     newPost: {
-      subscribe: (parent, args, { pubsub }) => {
+      subscribe: (_, __, { pubsub }) => {
         return pubsub.asyncIterator("NEW_POST");
       },
     },

@@ -20,6 +20,37 @@ const generateToken = (user) => {
 
 module.exports = {
   Mutation: {
+    //@LOGIN
+    login: async (parent, { username, password }) => {
+      //Validation
+      const { valid, errors } = validateLoginInput(username, password);
+
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      // search for the user with the username in the parameters
+      const user = await User.findOne({ username });
+
+      //checks if the users exists
+      if (!user) {
+        errors.general = "User not found";
+        throw new UserInputError("User not found", { errors });
+      }
+      //compares the 2 password (input vs database stored)
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        errors.general = "Wrong Credentials";
+        throw new UserInputError("Wrong Credentials", { errors });
+      }
+      //token generation
+      const token = generateToken(user);
+
+      return {
+        ...user._doc,
+        id: user._id,
+        token,
+      };
+    },
     //@REGISTER
     register: async (parent, { registerInput: { username, email, password, confirmPassword } }) => {
       // Validation
@@ -58,38 +89,6 @@ module.exports = {
       return {
         ...res._doc,
         id: res._id,
-        token,
-      };
-    },
-
-    //@LOGIN
-    login: async (parent, { username, password }) => {
-      //Validation
-      const { valid, errors } = validateLoginInput(username, password);
-
-      if (!valid) {
-        throw new UserInputError("Errors", { errors });
-      }
-      // search for the user with the username in the parameters
-      const user = await User.findOne({ username });
-
-      //checks if the users exists
-      if (!user) {
-        errors.general = "User not found";
-        throw new UserInputError("User not found", { errors });
-      }
-      //compares the 2 password (input vs database stored)
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        errors.general = "Wrong Credentials";
-        throw new UserInputError("Wrong Credentials", { errors });
-      }
-      //token generation
-      const token = generateToken(user);
-
-      return {
-        ...user._doc,
-        id: user._id,
         token,
       };
     },

@@ -3,3 +3,17 @@
 * {
   font-family: "Roboto";
 }
+
+.fixed-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99999;
+  background-color: whitesmoke !important;
+  margin-bottom: 40px;
+}
+
+.postbar {
+  margin-bottom: 30px;
+  width: 100%;
+}

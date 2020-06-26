@@ -41,7 +41,7 @@ const Login = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "70px" }}>
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : " "}>
         <h1>Login</h1>
         <Form.Input

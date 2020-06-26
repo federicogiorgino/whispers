@@ -23,7 +23,7 @@ const Register = (props) => {
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(proxy, result) {
-      context.login(result.data.login);
+      context.login(result.data.register);
       //once registered redirects to homepage
       props.history.push("/");
     },
@@ -40,7 +40,7 @@ const Register = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "70px" }}>
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : " "}>
         <h1>Register</h1>
         <Form.Input
