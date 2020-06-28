@@ -16,7 +16,7 @@ module.exports = {
       }
     },
     // @GETPOST get one specific post
-    getPost: async (parent, { postId }) => {
+    getPost: async (_, { postId }) => {
       try {
         const post = await Post.findById(postId);
         if (post) {
@@ -31,7 +31,7 @@ module.exports = {
   },
   Mutation: {
     // @CREATEPOST Creates a post
-    createPost: async (parent, { body }, context) => {
+    createPost: async (_, { body }, context) => {
       //checks if the user is authorized to post
       const user = checkAuth(context);
 
@@ -54,7 +54,7 @@ module.exports = {
     },
 
     // @DELETEPOST Deletes a post
-    deletePost: async (parent, { postId }, context) => {
+    deletePost: async (_, { postId }, context) => {
       //checks if the user is authorized to post
       const user = checkAuth(context);
       try {
@@ -71,7 +71,7 @@ module.exports = {
     },
 
     //@LIKEPOST Likes a post
-    likePost: async (parent, { postId }, context) => {
+    likePost: async (_, { postId }, context) => {
       const { username } = checkAuth(context);
 
       const post = await Post.findById(postId);

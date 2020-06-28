@@ -4,6 +4,10 @@
   font-family: "Roboto";
 }
 
+body {
+  height: 90vh;
+}
+
 .fixed-navbar {
   position: fixed;
   top: 0;
@@ -16,4 +20,13 @@
 .postbar {
   margin-bottom: 30px;
   width: 100%;
+}
+
+.banner {
+  height: 80vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

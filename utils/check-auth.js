@@ -1,12 +1,12 @@
 const JWT = require("jsonwebtoken");
 const { AuthenticationError } = require("apollo-server");
-
 const { SECRET } = require("../config");
 
 module.exports = (context) => {
   const authHeader = context.req.headers.authorization;
   if (authHeader) {
-    const token = authHeader.split("Bearer ")[1]; //Bearer token convention -->   token is gonna look like "Bearer " + token
+    // token = "Bearer" + token
+    const token = authHeader.split("Bearer ")[1];
     if (token) {
       try {
         const user = JWT.verify(token, SECRET);

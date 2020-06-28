@@ -7,6 +7,8 @@ import { FETCH_POSTS_QUERY } from "../utils/graphQL";
 
 import Post from "../components/Post";
 import CreatePost from "../components/CreatePost";
+import Banner from "../components/Banner";
+import Spinner from "../components/Spinner";
 
 const Home = () => {
   const context = useContext(AuthContext);
@@ -15,24 +17,30 @@ const Home = () => {
 
   return (
     <div style={{ marginTop: "70px" }}>
-      {user && <CreatePost />}
-
-      <Grid columns={1}>
-        <Grid.Row>
+      {user ? (
+        <Fragment>
+          <CreatePost />
           {loading ? (
-            <h2>Loading all posts.</h2>
+            <Spinner style={{ width: "300px" }} />
           ) : (
-            <Transition.Group>
-              {data.getPosts &&
-                data.getPosts.map((post) => (
-                  <Grid.Column key={post.id} style={{ marginBottom: "2rem" }}>
-                    <Post post={post} />
-                  </Grid.Column>
-                ))}
-            </Transition.Group>
+            <Grid columns={1}>
+              <Grid.Row>
+                <Transition.Group>
+                  {data.getPosts &&
+                    data.getPosts.map((post) => (
+                      <Grid.Column key={post.id} style={{ marginBottom: "2rem" }}>
+                        <Post post={post} />
+                      </Grid.Column>
+                    ))}
+                </Transition.Group>
+                )
+              </Grid.Row>
+            </Grid>
           )}
-        </Grid.Row>
-      </Grid>
+        </Fragment>
+      ) : (
+        <Banner />
+      )}
     </div>
   );
 };

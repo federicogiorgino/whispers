@@ -13,14 +13,14 @@ const Navbar = () => {
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   const navigationBar = context.user ? (
-    <Menu pointing secondary size='huge' color='red' className='fixed-navbar'>
+    <Menu pointing secondary size='huge' color='blue' className='fixed-navbar'>
       <Menu.Item name={context.user.username} active as={Link} to='/' />
       <Menu.Menu position='right'>
         <Menu.Item name='logout' as={Link} to='/login' onClick={context.logout} />
       </Menu.Menu>
     </Menu>
   ) : (
-    <Menu pointing secondary size='huge' color='red' className='fixed-navbar'>
+    <Menu pointing secondary size='huge' color='blue' className='fixed-navbar'>
       <Menu.Item
         name='home'
         active={activeItem === "home"}
@@ -47,7 +47,7 @@ const Navbar = () => {
     </Menu>
   );
   return navigationBar;
-  // <Menu pointing secondary size='huge' color='red'>
+  // <Menu pointing secondary size='huge' color='blue'>
   //   <Menu.Item
   //     name='home'
   //     active={activeItem === "home"}

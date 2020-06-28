@@ -41,7 +41,7 @@ const CreatePost = (props) => {
             value={values.body}
             error={error ? true : false}
           />
-          <Button type='submit' color='red'>
+          <Button type='submit' color='blue'>
             New post
           </Button>
         </Form.Field>
